@@ -64,16 +64,27 @@ func findNeedle(arr []string, needle string) int {
 }
 
 func blueOcean(arr1 []int, arr2 []int) []int {
-	arr3 := []int{}
-	for _, a1 := range arr1 {
-		for _, a2 := range arr2 {
-			if a2 != a1 {
-				arr1 = append(arr3, a1)
+	arrmap := map[int][]int{}
+	for i, a2 := range arr2 {
+		arrtemp := []int{}
+		if i == 0 {
+			for _, a1 := range arr1 {
+				if a1 != a2 {
+					arrtemp = append(arrtemp, a1)
+				}
+			}
+		} else {
+			for _, a1 := range arrmap[i-1] {
+				if a1 != a2 {
+					arrtemp = append(arrtemp, a1)
+				}
 			}
 		}
+		arrmap[i] = arrtemp
 	}
+	// fmt.Println(arrmap[len(arr2)-1])
 
-	return arr1
+	return arrmap[len(arr2)-1]
 }
 
 func main() {
@@ -89,5 +100,6 @@ func main() {
 
 	fmt.Println(blueOcean([]int{1, 2, 3, 4, 6, 10}, []int{1}))
 	fmt.Println(blueOcean([]int{1, 5, 5, 5, 5, 3}, []int{5}))
+	fmt.Println(blueOcean([]int{1, 5, 5, 5, 5, 3, 4}, []int{1, 5}))
 
 }
